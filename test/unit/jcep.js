@@ -1,18 +1,35 @@
-import jcep from '../../src/jcep';
+import Config from '../../src/jcep';
 
 describe('jcep', () => {
-  describe('Greet function', () => {
-    beforeEach(() => {
-      // spy(jcep, 'greet');
-      // jcep.greet();
+  describe('constructor function', () => {
+    let instance = new Config();
+
+    it('should have searchEl property', () => {
+      expect(instance).to.have.property('searchEl');
     });
 
-    it('should have been run once', () => {
-      // expect(jcep.greet).to.have.been.calledOnce;
+    it('should have appendScript property', () => {
+      expect(instance).to.have.property('appendScript');
     });
 
-    it('should have always returned hello', () => {
-      // expect(jcep.greet).to.have.always.returned('hello');
+    it('should have jsonp property', () => {
+      expect(instance).to.have.property('jsonp');
+    });
+
+    it('should have request property', () => {
+      expect(instance).to.have.property('request');
+    });
+
+    it('should have eventHandler property', () => {
+      expect(instance).to.have.property('eventHandler');
+    });
+
+    it('should have search property', () => {
+      expect(instance).to.have.property('search');
+    });
+
+    it('should have fillForm property', () => {
+      expect(instance).to.have.property('fillForm');
     });
   });
 });
