@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <title>Example</title>
+
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+
+  <script src='../dist/jcep.js'></script>
+
+  <script type='text/javascript'>
+    //<![CDATA[
+
+    document.addEventListener('DOMContentLoaded', function(){
+      var successCallback = function(data) {
+        console.log('callback success: ', data);
+      };
+
+      var errorCallback = function(err) {
+        console.error('callback error: ', err);
+      };
+
+      new jcep({
+        elements: {
+          cepEl: '.cep',
+          streetEl: '.street',
+          numberEl: '.number',
+          neighborhoodEl: '.neighborhood',
+          cityEl: '.city',
+          stateEl: '.state'
+        },
+        success: successCallback,
+        error: errorCallback
+      });
+    }, false);
+
+    //]]>
+  </script>
+</head>
+
+<body>
+  <div class='jumbotron'>
+    <div class='container'>
+      <form action='#' id='without-data-attributes'>
+        <h3> Usage example </h3>
+
+        <div class='form-group'>
+          <label> CEP: </label>
+          <input type='text' name='cep' class='form-control cep'><br>
+        </div>
+        <div class='form-group'>
+          <label> Rua: </label>
+          <input type='text' name='street' class='form-control street'><br>
+        </div>
+        <div class='form-group'>
+          <label> Número: </label>
+          <input type='text' name='number' class='form-control number'><br>
+        </div>
+        <div class='form-group'>
+          <label> Bairro: </label>
+          <input type='text' name='neighborhood' class='form-control neighborhood'><br>
+        </div>
+        <div class='form-group'>
+          <label> Cidade: </label>
+          <input type='text' name='city' class='form-control city'><br>
+        </div>
+        <div class='form-group'>
+         <label> Estado: </label>
+         <input type='text' name='state' class='form-control state'><br>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
