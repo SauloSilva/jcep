@@ -19,6 +19,7 @@ const config = manifest.babelBoilerplateOptions;
 const mainFile = manifest.main;
 const destinationFolder = path.dirname(mainFile);
 const exportFileName = path.basename(mainFile, path.extname(mainFile));
+const mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 function cleanDist(done) {
   del([destinationFolder]).then(() => done());
@@ -83,12 +84,11 @@ function build() {
 }
 
 function _mocha() {
-  return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'], {read: false})
-    .pipe($.mocha({
-      reporter: 'dot',
-      globals: Object.keys(mochaGlobals.globals),
-      ignoreLeaks: false
-    }));
+  'use strict';
+
+  return gulp
+    .src('./test/runner.html')
+    .pipe(mochaPhantomJS());
 }
 
 function _registerBabel() {
