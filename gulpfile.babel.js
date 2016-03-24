@@ -101,14 +101,15 @@ function test() {
 }
 
 function coverage(done) {
-  _registerBabel();
   gulp.src(['src/**/*.js'])
     .pipe($.istanbul({ instrumenter: Instrumenter }))
     .pipe($.istanbul.hookRequire())
     .on('finish', () => {
       return test()
         .pipe($.istanbul.writeReports())
-        .on('end', done);
+        .on('end', () => {
+          done();
+        });
     });
 }
 
