@@ -19,8 +19,7 @@ class Search {
       }
 
       if (this.triggerEventName) {
-        let event = new CustomEvent(`${this.triggerEventName}:success`, { detail: data });
-        document.dispatchEvent(event);
+        this.dispatchEvent('success', data);
       } else {
         this.fillForm(data);
       }
@@ -30,10 +29,17 @@ class Search {
       }
 
       if (this.triggerEventName) {
-        let event = new CustomEvent(`${this.triggerEventName}:error`, { detail: err });
-        document.dispatchEvent(event);
+        this.dispatchEvent('error', err);
       }
     });
+  }
+
+  dispatchEvent(type, detail) {
+    let event = new CustomEvent(`${this.triggerEventName}:${type}`, {
+      detail: detail
+    });
+
+    document.dispatchEvent(event);
   }
 
   fillForm(data) {
