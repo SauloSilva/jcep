@@ -1,8 +1,7 @@
 # jCep
 
-[![Travis build status](http://img.shields.io/travis/jcep/jcep.svg?style=flat)](https://travis-ci.org/jcep/jcep)
-[![Code Climate](https://codeclimate.com/github/jcep/jcep/badges/gpa.svg)](https://codeclimate.com/github/jcep/jcep)
-[![Test Coverage](https://codeclimate.com/github/jcep/jcep/badges/coverage.svg)](https://codeclimate.com/github/jcep/jcep)
+[![TravisBuild Status](https://travis-ci.org/SauloSilva/jcep.svg?branch=master)](https://travis-ci.org/SauloSilva/jcep)
+[![Code Climate](https://codeclimate.com/github/SauloSilva/jcep/badges/gpa.svg)](https://codeclimate.com/github/SauloSilva/jcep)
 
 ## About jcep
 

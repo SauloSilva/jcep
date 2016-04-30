@@ -20,6 +20,8 @@ const mainFile = manifest.main;
 const destinationFolder = path.dirname(mainFile);
 const exportFileName = path.basename(mainFile, path.extname(mainFile));
 const mochaPhantomJS = require('gulp-mocha-phantomjs');
+const testFiles = glob.sync('./test/unit/**/*.js');
+const allFiles = ['./test/setup/browser.js'].concat(testFiles);
 
 function cleanDist(done) {
   del([destinationFolder]).then(() => done());
@@ -95,47 +97,11 @@ function _registerBabel() {
   require('babel-register');
 }
 
-function test() {
-  _registerBabel();
-  return _mocha();
-}
-
-function coverage(done) {
-  gulp.src(['src/**/*.js'])
-    .pipe($.istanbul({ instrumenter: Instrumenter }))
-    .pipe($.istanbul.hookRequire())
-    .on('finish', () => {
-      return test()
-        .pipe($.istanbul.writeReports())
-        .on('end', () => {
-          done();
-        });
-    });
-}
-
-const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.jscsrc'];
-
-// Run the headless unit tests as you make changes.
-function watch() {
-  gulp.watch(watchFiles, ['test']);
-}
-
-function testBrowser() {
-  // Our testing bundle is made up of our unit tests, which
-  // should individually load up pieces of our application.
-  // We also include the browser setup file.
-  const testFiles = glob.sync('./test/unit/**/*.js');
-  const allFiles = ['./test/setup/browser.js'].concat(testFiles);
-
-  // Lets us differentiate between the first build and subsequent builds
-  var firstBuild = true;
-
-  // This empty stream might seem like a hack, but we need to specify all of our files through
-  // the `entry` option of webpack. Otherwise, it ignores whatever file(s) are placed in here.
-  return gulp.src('')
+function testBuilder(watch, callback) {
+  gulp.src('')
     .pipe($.plumber())
     .pipe(webpackStream({
-      watch: true,
+      watch: watch,
       entry: allFiles,
       output: {
         filename: '__spec-build.js'
@@ -155,15 +121,59 @@ function testBrowser() {
       ],
       devtool: 'inline-source-map'
     }, null, function() {
-      if (firstBuild) {
-        $.livereload.listen({port: 4000, host: 'localhost', start: true});
-        var watcher = gulp.watch(watchFiles, ['lint']);
-      } else {
-        $.livereload.reload('./tmp/__spec-build.js');
-      }
-      firstBuild = false;
+      callback();
     }))
     .pipe(gulp.dest('./tmp'));
+}
+
+function test() {
+  _registerBabel();
+  testBuilder(false, _mocha);
+}
+
+function coverage(done) {
+  gulp.src(['src/**/*.js'])
+    .pipe($.istanbul({ instrumenter: Instrumenter }))
+    .pipe($.istanbul.hookRequire())
+    .on('finish', () => {
+      return testBuilder(false, function() {
+        _registerBabel();
+
+        _mocha()
+          .pipe($.istanbul.writeReports())
+          .on('end', () => {
+            done();
+          });
+      });
+    });
+}
+
+const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.jscsrc'];
+
+// Run the headless unit tests as you make changes.
+function watch() {
+  gulp.watch(watchFiles, ['test']);
+}
+
+function testBrowser() {
+  // Our testing bundle is made up of our unit tests, which
+  // should individually load up pieces of our application.
+  // We also include the browser setup file.
+  // Lets us differentiate between the first build and subsequent builds
+  var firstBuild = true;
+
+  // This empty stream might seem like a hack, but we need to specify all of our files through
+  // the `entry` option of webpack. Otherwise, it ignores whatever file(s) are placed in here.
+
+  return testBuilder(false, function() {
+    if (firstBuild) {
+      $.livereload.listen({port: 4000, host: 'localhost', start: true});
+      var watcher = gulp.watch(watchFiles, ['lint']);
+    } else {
+      $.livereload.reload('./tmp/__spec-build.js');
+    }
+    firstBuild = false;
+  });
 }
 
 // Remove the built files
