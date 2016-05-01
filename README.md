@@ -8,6 +8,12 @@
 Jcep is a library to helpful a search address by CEP on Brazil.
 No dependency with **jQuery** or anything.
 
+## Install by bower
+
+```
+bower install jcep
+```
+
 ## How to use
 
 It's very simple. Look by example:
