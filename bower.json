@@ -20,7 +20,6 @@
     ".jscsrc",
     ".npmignore",
     ".travis.yml",
-    "example",
     "gulpfile.babel.js",
     "src",
     "test"

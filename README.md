@@ -8,6 +8,8 @@
 Jcep is a library to helpful a search address by CEP on Brazil.
 No dependency with **jQuery** or anything.
 
+[**Live Demo**](http://codepen.io/SauloSilva/full/pyQgeg/)
+
 ## Install by bower
 
 ```
@@ -133,8 +135,6 @@ document.addEventListener('test:error', function(error) {
 **Obs:** The event names contains, name (you specified on configuration) with
 prefix (`:success` or `:error`). Be careful don't forget the prefix
 in the end of event name
-
-## [Demo](./example/index.html)
 
 ## Contributors
 
