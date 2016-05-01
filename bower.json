@@ -1,0 +1,30 @@
+{
+  "name": "jcep",
+  "description": "Search address by cep on Brazil",
+  "main": "dist/jcep.js",
+  "authors": [
+    "Saulo Santiago <saulodasilvasantiago@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "cep",
+    "Brazil",
+    "javascript",
+    "es6"
+  ],
+  "ignore": [
+    ".babelrc",
+    ".editorconfig",
+    ".eslintrc",
+    ".gitignore",
+    ".jscsrc",
+    ".npmignore",
+    ".travis.yml",
+    "example",
+    "gulpfile.babel.js",
+    "src",
+    "test"
+  ],
+  "homepage": "https://github.com/SauloSilva/jcep",
+  "moduleType": []
+}
