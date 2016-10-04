@@ -45,10 +45,29 @@ class Search {
   fillForm(data) {
     this.streetEl.value = `${data.tipoDeLogradouro} ${data.logradouro}`;
     this.neighborhoodEl.value = data.bairro;
-    this.cityEl.value = data.cidade;
+    var cityValue = data.cidade;
+    if (this.removeDiacritics) {
+      cityValue = this.replaceDiacritics(cityValue);
+    }
+    this.cityEl.value = cityValue;
     this.stateEl.value = data.estado;
 
     this.numberEl.focus();
+  }
+
+  replaceDiacritics(str) {
+    str = str.replace(/[ÁÀÂÃÄ]/g, 'A');
+    str = str.replace(/[áàâãä]/g, 'a');
+    str = str.replace(/[ÉÈÊË]/g, 'E');
+    str = str.replace(/[éèêë]/g, 'e');
+    str = str.replace(/[ÍÌÎÏ]/g, 'I');
+    str = str.replace(/[íìîï]/g, 'i');
+    str = str.replace(/[ÓÒÔÕÖ]/g, 'O');
+    str = str.replace(/[óòôõö]/g, 'o');
+    str = str.replace(/[ÚÙÛÜ]/g, 'U');
+    str = str.replace(/[úùûü]/g, 'u');
+    str = str.replace(/[Ç]/g, 'C');
+    return str.replace(/[ç]/g, 'c');
   }
 }
 
