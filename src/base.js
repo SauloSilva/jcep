@@ -4,7 +4,8 @@ class Base {
       triggerEventName = false,
       elements = false,
       success: callbackSuccess,
-      error: callbackError
+      error: callbackError,
+      removeDiacritics = false
     } = object;
 
     let {
@@ -24,6 +25,7 @@ class Base {
     this.stateEl = stateEl;
 
     this.triggerEventName = triggerEventName;
+    this.removeDiacritics = removeDiacritics;
     this.callbackSuccess = callbackSuccess || false;
     this.callbackError = callbackError || false;
   }
