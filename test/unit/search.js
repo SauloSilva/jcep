@@ -114,17 +114,43 @@ describe('Search', () => {
           fooInstance.search();
         });
 
-        it('when success has been fill form', () => {
-          let fooInstance = new Foo();
+        describe('with removeDiacritics option set to false', () => {
+          it('fills the form with diacritics', () => {
+            let fooInstance = new Foo({ removeDiacritics: false });
 
-          fooInstance.fillForm({ tipoDeLogradouro: 'Rua', logradouro: 'logradouro', bairro: 'bairro', cidade: 'cidade', estado: 'estado' });
+            fooInstance.fillForm({ tipoDeLogradouro: 'Rua', logradouro: 'logradouro', bairro: 'bairro', cidade: 'cidáde', estado: 'estado' });
 
-          expect(fooInstance.streetEl.value).to.equal('Rua logradouro');
-          expect(fooInstance.neighborhoodEl.value).to.equal('bairro');
-          expect(fooInstance.cityEl.value).to.equal('cidade');
-          expect(fooInstance.stateEl.value).to.equal('estado');
+            expect(fooInstance.streetEl.value).to.equal('Rua logradouro');
+            expect(fooInstance.neighborhoodEl.value).to.equal('bairro');
+            expect(fooInstance.cityEl.value).to.equal('cidáde');
+            expect(fooInstance.stateEl.value).to.equal('estado');
+          });
+        });
+        describe('with removeDiacritics option set to true', () => {
+          it('fills the form without diacritics', () => {
+            let fooInstance = new Foo({ removeDiacritics: true });
+
+            fooInstance.fillForm({ tipoDeLogradouro: 'Rua', logradouro: 'logradouro', bairro: 'bairro', cidade: 'cidáde', estado: 'estado' });
+
+            expect(fooInstance.streetEl.value).to.equal('Rua logradouro');
+            expect(fooInstance.neighborhoodEl.value).to.equal('bairro');
+            expect(fooInstance.cityEl.value).to.equal('cidade');
+            expect(fooInstance.stateEl.value).to.equal('estado');
+          });
         });
       });
+    });
+  });
+
+  describe('replaceDiacritics function', () => {
+    beforeEach(() => {
+      fooInstance = new Foo();
+    });
+
+    it('replaces diacritics with ascii characters', () => {
+      var input = 'AÁÀÂÃÄaáàâãäEÉÈÊËeéèêëIÍÌÎÏiíìîïOÓÒÔÕÖoóòôõöUÚÙÛÜuúùûüCÇcç';
+      var expected = 'AAAAAAaaaaaaEEEEEeeeeeIIIIIiiiiiOOOOOOooooooUUUUUuuuuuCCcc';
+      expect(fooInstance.replaceDiacritics(input)).to.equal(expected);
     });
   });
 });

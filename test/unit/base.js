@@ -208,5 +208,25 @@ describe('Base', () => {
         expect(base.searchEl({ el })).to.not.equal(undefined);
       });
     });
+
+    describe('when removeDiacritics is empty', () => {
+      beforeEach(() => {
+        base = new Base();
+      });
+
+      it('removeDiacritics is false', () => {
+        expect(base.removeDiacritics).to.equal(false);
+      });
+    });
+
+    describe('when removeDiacritics exists', () => {
+      beforeEach(() => {
+        base = new Base({ removeDiacritics: true });
+      });
+
+      it('returns the value passed on removeDiacritics option', () => {
+        expect(base.removeDiacritics).to.equal(true);
+      });
+    });
   });
 });
