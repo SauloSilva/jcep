@@ -4,7 +4,8 @@ class Base {
       triggerEventName = false,
       elements = false,
       success: callbackSuccess,
-      error: callbackError
+      error: callbackError,
+      beforeSend: callbackBeforeSend,
     } = object;
 
     let {
@@ -26,6 +27,7 @@ class Base {
     this.triggerEventName = triggerEventName;
     this.callbackSuccess = callbackSuccess || false;
     this.callbackError = callbackError || false;
+    this.callbackBeforeSend = callbackBeforeSend || false;
   }
 
   set cepEl(el) {
@@ -98,6 +100,14 @@ class Base {
 
   get callbackError() {
     return this._callbackError;
+  }
+
+  set callbackBeforeSend(callbackBeforeSend) {
+    this._callbackBeforeSend = callbackBeforeSend;
+  }
+
+  get callbackBeforeSend() {
+    return this._callbackBeforeSend;
   }
 
   set cep(cep) {
