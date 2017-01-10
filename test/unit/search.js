@@ -32,6 +32,7 @@ describe('Search', () => {
       describe('with callbacks', () => {
         let successCallback;
         let errorCallback;
+        let beforeSendCallback;
 
         it('success callback has been called', (done) => {
           successCallback = ((data) => {
@@ -72,8 +73,19 @@ describe('Search', () => {
           fooInstance.search();
         });
 
+        it('beforeSend callback has been called', (done) => {
+          beforeSendCallback = (() => {
+            done();
+            expect(true).to.be.true;
+          });
+
+          let fooInstance = new Foo({ beforeSend: beforeSendCallback });
+          fooInstance.cep = '00000000';
+          fooInstance.search();
+        });
+
         it('event:success has been triggered', (done) => {
-          document.addEventListener('foo:success', ((data) => {
+          const successEvent = function(data) {
             done();
 
             expect(data.detail).to.include.keys('cep');
@@ -95,7 +107,11 @@ describe('Search', () => {
             expect(data.detail.estado).to.equal('SP');
 
             expect(data.type).to.equal('foo:success');
-          }), false);
+
+            document.removeEventListener('foo:success', successEvent);
+          };
+
+          document.addEventListener('foo:success', successEvent, false);
 
           let fooInstance = new Foo({ triggerEventName: 'foo' });
           fooInstance.cep = CEP;
@@ -123,6 +139,18 @@ describe('Search', () => {
           expect(fooInstance.neighborhoodEl.value).to.equal('bairro');
           expect(fooInstance.cityEl.value).to.equal('cidade');
           expect(fooInstance.stateEl.value).to.equal('estado');
+        });
+
+        it('event:beforeSend has been triggered', (done) => {
+          document.addEventListener('foo:beforeSend', ((data) => {
+            done();
+
+            expect(data.type).to.equal('foo:beforeSend');
+          }), false);
+
+          let fooInstance = new Foo({ triggerEventName: 'foo' });
+          fooInstance.cep = CEP;
+          fooInstance.search();
         });
       });
     });

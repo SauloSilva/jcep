@@ -100,13 +100,23 @@ new jcep({
 });
 ```
 
+### Before Send
+
+The `beforeSend` callback is use before the request is sent to search for the zipcode.
+
+```js
+new jcep({
+  beforeSend: function() { console.log('before sending the request') },
+});
+```
+
 ## Callbacks by events
 
 You can configure callback by events
 
 ### Success
 
-If you can receive results of search by events, it's easy. Eg.
+If you want receive results of search by events, it's easy. Eg.
 
 ```js
 new jcep({
@@ -120,7 +130,7 @@ document.addEventListener('test:success', function(data) {
 
 ### Error
 
-If you can receive error message of search by events, it's easy. Eg.
+If you want receive error message of search by events, it's easy. Eg.
 
 ```js
 new jcep({
@@ -130,6 +140,20 @@ new jcep({
 document.addEventListener('test:error', function(error) {
   console.error('error: ', error);
 })
+```
+
+### Before Send
+
+This event will be triggered before the request is sent to search for the zipcode.
+
+```js
+new jcep({
+  triggerEventName: 'test'
+});
+
+document.addEventListener('test:beforeSend', function() {
+  console.log('before sending the request');
+});
 ```
 
 **Obs:** The event names contains, name (you specified on configuration) with
