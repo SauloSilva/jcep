@@ -94,7 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Config() {
 	    _classCallCheck(this, Config);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Config).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Config.__proto__ || Object.getPrototypeOf(Config)).apply(this, arguments));
 	  }
 	
 	  return Config;
@@ -123,7 +123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _inherits(_Combined, _baseClass);
 	
 	    function _Combined() {
-	      var _Object$getPrototypeO;
+	      var _ref;
 	
 	      _classCallCheck(this, _Combined);
 	
@@ -131,7 +131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        args[_key2] = arguments[_key2];
 	      }
 	
-	      var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_Combined)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+	      var _this = _possibleConstructorReturn(this, (_ref = _Combined.__proto__ || Object.getPrototypeOf(_Combined)).call.apply(_ref, [this].concat(args)));
 	
 	      mixins.forEach(function (mixin) {
 	        mixin.prototype.initializer.call(_this);
@@ -174,28 +174,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Base = function () {
 	  function Base() {
-	    var object = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var object = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	
 	    _classCallCheck(this, Base);
 	
-	    var _object$triggerEventN = object.triggerEventName;
-	    var triggerEventName = _object$triggerEventN === undefined ? false : _object$triggerEventN;
-	    var _object$elements = object.elements;
-	    var elements = _object$elements === undefined ? false : _object$elements;
-	    var callbackSuccess = object.success;
-	    var callbackError = object.error;
-	    var _elements$cepEl = elements.cepEl;
-	    var cepEl = _elements$cepEl === undefined ? 'cep' : _elements$cepEl;
-	    var _elements$streetEl = elements.streetEl;
-	    var streetEl = _elements$streetEl === undefined ? 'street' : _elements$streetEl;
-	    var _elements$numberEl = elements.numberEl;
-	    var numberEl = _elements$numberEl === undefined ? 'number' : _elements$numberEl;
-	    var _elements$neighborhoo = elements.neighborhoodEl;
-	    var neighborhoodEl = _elements$neighborhoo === undefined ? 'neighborhood' : _elements$neighborhoo;
-	    var _elements$cityEl = elements.cityEl;
-	    var cityEl = _elements$cityEl === undefined ? 'city' : _elements$cityEl;
-	    var _elements$stateEl = elements.stateEl;
-	    var stateEl = _elements$stateEl === undefined ? 'state' : _elements$stateEl;
+	    var _object$triggerEventN = object.triggerEventName,
+	        triggerEventName = _object$triggerEventN === undefined ? false : _object$triggerEventN,
+	        _object$elements = object.elements,
+	        elements = _object$elements === undefined ? false : _object$elements,
+	        callbackSuccess = object.success,
+	        callbackError = object.error,
+	        callbackBeforeSend = object.beforeSend;
+	    var _elements$cepEl = elements.cepEl,
+	        cepEl = _elements$cepEl === undefined ? 'cep' : _elements$cepEl,
+	        _elements$streetEl = elements.streetEl,
+	        streetEl = _elements$streetEl === undefined ? 'street' : _elements$streetEl,
+	        _elements$numberEl = elements.numberEl,
+	        numberEl = _elements$numberEl === undefined ? 'number' : _elements$numberEl,
+	        _elements$neighborhoo = elements.neighborhoodEl,
+	        neighborhoodEl = _elements$neighborhoo === undefined ? 'neighborhood' : _elements$neighborhoo,
+	        _elements$cityEl = elements.cityEl,
+	        cityEl = _elements$cityEl === undefined ? 'city' : _elements$cityEl,
+	        _elements$stateEl = elements.stateEl,
+	        stateEl = _elements$stateEl === undefined ? 'state' : _elements$stateEl;
+	
 	
 	    this.cepEl = cepEl;
 	    this.streetEl = streetEl;
@@ -207,6 +209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.triggerEventName = triggerEventName;
 	    this.callbackSuccess = callbackSuccess || false;
 	    this.callbackError = callbackError || false;
+	    this.callbackBeforeSend = callbackBeforeSend || false;
 	  }
 	
 	  _createClass(Base, [{
@@ -214,7 +217,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function searchEl(_ref) {
 	      var el = _ref.el;
 	
-	      var element = undefined;
+	      var element = void 0;
 	
 	      if (el) {
 	        element = document.querySelectorAll(el)[0];
@@ -298,6 +301,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    get: function get() {
 	      return this._callbackError;
+	    }
+	  }, {
+	    key: 'callbackBeforeSend',
+	    set: function set(callbackBeforeSend) {
+	      this._callbackBeforeSend = callbackBeforeSend;
+	    },
+	    get: function get() {
+	      return this._callbackBeforeSend;
 	    }
 	  }, {
 	    key: 'cep',
@@ -416,7 +427,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -428,12 +439,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  _createClass(Requester, [{
-	    key: "initializer",
+	    key: 'initializer',
 	    value: function initializer() {}
 	  }, {
-	    key: "request",
+	    key: 'request',
 	    value: function request() {
 	      var _this = this;
+	
+	      if (this.triggerEventName) {
+	        this.dispatchEvent('beforeSend');
+	      }
+	
+	      if (this.callbackBeforeSend) {
+	        this.callbackBeforeSend();
+	      }
 	
 	      return new Promise(function (resolve, reject) {
 	        _this.jsonp(function (data) {
@@ -495,8 +514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        if (_this2.triggerEventName) {
-	          var event = new CustomEvent(_this2.triggerEventName + ':success', { detail: data });
-	          document.dispatchEvent(event);
+	          _this2.dispatchEvent('success', data);
 	        } else {
 	          _this2.fillForm(data);
 	        }
@@ -506,10 +524,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        if (_this2.triggerEventName) {
-	          var event = new CustomEvent(_this2.triggerEventName + ':error', { detail: err });
-	          document.dispatchEvent(event);
+	          _this2.dispatchEvent('error', err);
 	        }
 	      });
+	    }
+	  }, {
+	    key: 'dispatchEvent',
+	    value: function dispatchEvent(type, detail) {
+	      var event = new CustomEvent(this.triggerEventName + ':' + type, {
+	        detail: detail
+	      });
+	
+	      document.dispatchEvent(event);
 	    }
 	  }, {
 	    key: 'fillForm',
