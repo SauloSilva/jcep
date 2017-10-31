@@ -8,11 +8,13 @@ import Search from '../../src/search';
 describe('Search', () => {
   class Foo extends aggregation(Base, AppendScript, JsonP, Requester, Search) {}
   let fooInstance;
+  let count;
   const CEP = '13324451';
 
   describe('eventHandler function', () => {
     beforeEach(() => {
       fooInstance = new Foo();
+      count = 0;
       spy(fooInstance, 'search');
     });
 
@@ -86,7 +88,11 @@ describe('Search', () => {
 
         it('event:success has been triggered', (done) => {
           const successEvent = function(data) {
-            done();
+            if (count < 1) {
+              done();
+            }
+
+            count += 1;
 
             expect(data.detail).to.include.keys('cep');
             expect(data.detail.cep).to.equal(CEP);
@@ -133,12 +139,13 @@ describe('Search', () => {
         it('when success has been fill form', () => {
           let fooInstance = new Foo();
 
-          fooInstance.fillForm({ tipoDeLogradouro: 'Rua', logradouro: 'logradouro', bairro: 'bairro', cidade: 'cidade', estado: 'estado' });
+          fooInstance.fillForm({ complemento: '', logradouro: 'logradouro', bairro: 'bairro', localidade: 'cidade', uf: 'estado' });
 
-          expect(fooInstance.streetEl.value).to.equal('Rua logradouro');
+          expect(fooInstance.streetEl.value).to.equal('logradouro');
           expect(fooInstance.neighborhoodEl.value).to.equal('bairro');
           expect(fooInstance.cityEl.value).to.equal('cidade');
           expect(fooInstance.stateEl.value).to.equal('estado');
+          expect(fooInstance.complementEl.value).to.equal('');
         });
 
         it('event:beforeSend has been triggered', (done) => {

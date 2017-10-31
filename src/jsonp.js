@@ -4,16 +4,16 @@ class JsonP {
   jsonp(callbackSuccess, callbackError) {
     this.jsonCallbackName = Math.round(100000 * Math.random());
 
-    window[this.jsonCallbackName] = ((data) => {
-      this.removeScriptAndCallback(script);
-      callbackSuccess(data);
-    });
-
     let script = this.appendScript();
 
-    script.onerror = ((xhr) => {
+    window[this.jsonCallbackName] = ((data) => {
       this.removeScriptAndCallback(script);
-      callbackError(xhr);
+
+      if (!data.erro) {
+        callbackSuccess(data);
+      } else {
+        callbackError(data);
+      }
     });
   }
 

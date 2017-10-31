@@ -43,10 +43,11 @@ class Search {
   }
 
   fillForm(data) {
-    this.streetEl.value = `${data.tipoDeLogradouro} ${data.logradouro}`;
+    this.streetEl.value = data.logradouro;
     this.neighborhoodEl.value = data.bairro;
-    this.cityEl.value = data.cidade;
-    this.stateEl.value = data.estado;
+    this.complementEl.value = data.complemento;
+    this.cityEl.value = data.localidade;
+    this.stateEl.value = data.uf;
 
     this.numberEl.focus();
   }

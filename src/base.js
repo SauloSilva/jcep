@@ -13,6 +13,7 @@ class Base {
       streetEl = 'street',
       numberEl = 'number',
       neighborhoodEl = 'neighborhood',
+      complementEl = 'complement',
       cityEl = 'city',
       stateEl = 'state'
     } = elements;
@@ -21,6 +22,7 @@ class Base {
     this.streetEl = streetEl;
     this.numberEl = numberEl;
     this.neighborhoodEl = neighborhoodEl;
+    this.complementEl = complementEl;
     this.cityEl = cityEl;
     this.stateEl = stateEl;
 
@@ -52,6 +54,14 @@ class Base {
 
   get neighborhoodEl() {
     return this._neighborhoodEl;
+  }
+
+  set complementEl(el) {
+    this._complementEl = this.searchEl({ el });
+  }
+
+  get complementEl() {
+    return this._complementEl;
   }
 
   set cityEl(el) {

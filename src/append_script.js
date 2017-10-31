@@ -3,7 +3,7 @@ class AppendScript {
 
   get apiUrl() {
     let protocol = location.protocol === 'https:' ? 'https:' : 'http:';
-    return `${protocol}//correiosapi.apphb.com/cep/${this.cep}`;
+    return `${protocol}//viacep.com.br/ws/${this.cep}/json/`;
   }
 
   appendScript() {

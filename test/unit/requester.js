@@ -22,20 +22,29 @@ describe('Requester', () => {
         expect(data).to.include.keys('cep');
         expect(data.cep).to.equal(CEP);
 
-        expect(data).to.include.keys('tipoDeLogradouro');
-        expect(data.tipoDeLogradouro).to.equal('Rua');
-
         expect(data).to.include.keys('logradouro');
-        expect(data.logradouro).to.equal('Estado de São Paulo');
+        expect(data.logradouro).to.equal('Rua Estado de São Paulo');
 
         expect(data).to.include.keys('bairro');
         expect(data.bairro).to.equal('Loteamento Terras de São Pedro e São Paulo');
+
+        expect(data).to.include.keys('complemento');
+        expect(data.bairro).to.equal('');
 
         expect(data).to.include.keys('cidade');
         expect(data.cidade).to.equal('Salto');
 
         expect(data).to.include.keys('estado');
         expect(data.estado).to.equal('SP');
+
+        expect(data).to.include.keys('unidade');
+        expect(data.estado).to.equal('');
+
+        expect(data).to.include.keys('ibge');
+        expect(data.estado).to.equal('3545209');
+
+        expect(data).to.include.keys('gia');
+        expect(data.estado).to.equal('6002');
       });
     });
 

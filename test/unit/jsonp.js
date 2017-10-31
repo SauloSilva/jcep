@@ -10,81 +10,73 @@ describe('JsonP', () => {
     let success;
     let error;
     const CEP = '13324451';
+    let count;
 
     beforeEach(() => {
+      count = 0;
       fooInstance = new Foo();
     });
 
-    it('when cep valid, include cep, tipoDeLogradouro, logradouro, bairro, cidade, estado keys', (done) => {
+    it('contains cep valid, include cep, logradouro, bairro, localidade, uf, unidade, ibge and gia keys', (done) => {
       fooInstance.cep = CEP;
 
       success = ((data) => {
-        done();
-
         expect(data).to.include.keys('cep');
-        expect(data.cep).to.equal(CEP);
-
-        expect(data).to.include.keys('tipoDeLogradouro');
-        expect(data.tipoDeLogradouro).to.equal('Rua');
+        expect(data.cep).to.equal('13324-451');
 
         expect(data).to.include.keys('logradouro');
-        expect(data.logradouro).to.equal('Estado de São Paulo');
+        expect(data.logradouro).to.equal('Rua Estado de São Paulo');
 
         expect(data).to.include.keys('bairro');
         expect(data.bairro).to.equal('Loteamento Terras de São Pedro e São Paulo');
 
-        expect(data).to.include.keys('cidade');
-        expect(data.cidade).to.equal('Salto');
+        expect(data).to.include.keys('complemento');
+        expect(data.complemento).to.equal('');
 
-        expect(data).to.include.keys('estado');
-        expect(data.estado).to.equal('SP');
+        expect(data).to.include.keys('localidade');
+        expect(data.localidade).to.equal('Salto');
+
+        expect(data).to.include.keys('uf');
+        expect(data.uf).to.equal('SP');
+
+        expect(data).to.include.keys('unidade');
+        expect(data.unidade).to.equal('');
+
+        expect(data).to.include.keys('ibge');
+        expect(data.ibge).to.equal('3545209');
+
+        expect(data).to.include.keys('gia');
+        expect(data.gia).to.equal('6002');
 
         expect(window[fooInstance.jsonCallbackName]).to.be.undefined;
-        expect(document.querySelectorAll('body script')).to.be.empty;
+        expect(document.querySelectorAll('body script').length).to.be.zero;
+
+        if (count < 1) {
+          done();
+        }
+
+        count += 1;
       });
 
       fooInstance.jsonp(success, error);
     });
 
-    it('when cep wrong callback error has been called', (done) => {
+    it('when cep wrong, callback error has been called and delete script tag', (done) => {
       fooInstance.cep = '00000000';
 
-      error = ((err) => {
-        done();
-
-        expect(true).to.be.true;
-      });
-
-      fooInstance.jsonp(success, error);
-    });
-
-    it('when success callback called, jsonCallback function and script, both has been removed', (done) => {
-      fooInstance.cep = CEP;
-
-      success = ((data) => {
-        done();
+      error = ((data) => {
+        expect(data.erro).to.be.true;
         expect(window[fooInstance.jsonCallbackName]).to.be.undefined;
-        expect(document.querySelectorAll('body script')).to.be.empty;
+        expect(document.querySelectorAll('body script').length).to.be.zero;
+
+        if (count < 1) {
+          done();
+        }
+
+        count += 1;
       });
 
       fooInstance.jsonp(success, error);
-
-      expect(window[fooInstance.jsonCallbackName]).to.not.be.undefined;
-      expect(document.querySelectorAll('body script')).to.not.be.empty;
-    });
-
-    it('when error callback called, jsonCallback function and script, both has been removed', (done) => {
-      fooInstance.cep = '00000000';
-
-      error = ((err) => {
-        done();
-        expect(window[fooInstance.jsonCallbackName]).to.be.undefined;
-        expect(document.querySelectorAll('body script')).to.be.empty;
-      });
-
-      fooInstance.jsonp(success, error);
-      expect(window[fooInstance.jsonCallbackName]).to.not.be.undefined;
-      expect(document.querySelectorAll('body script')).to.not.be.empty;
     });
   });
 });

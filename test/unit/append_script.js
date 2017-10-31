@@ -25,7 +25,7 @@ describe('AppendScript', () => {
     });
 
     it('src contains correiosapi URL', () => {
-      expect(src).to.contain('correiosapi.apphb.com/cep');
+      expect(src).to.contain('viacep.com.br/ws/13324451/json/');
     });
 
     it('src contains callback', () => {
