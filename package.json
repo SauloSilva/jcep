@@ -1,6 +1,6 @@
 {
   "name": "jcep",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Search address by cep on Brazil",
   "main": "dist/jcep.js",
   "scripts": {

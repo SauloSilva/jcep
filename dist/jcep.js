@@ -583,9 +583,12 @@ var Search = function () {
     value: function fillForm(data) {
       this.streetEl.value = data.logradouro;
       this.neighborhoodEl.value = data.bairro;
-      this.complementEl.value = data.complemento;
       this.cityEl.value = data.localidade;
       this.stateEl.value = data.uf;
+
+      if (this.complementEl) {
+        this.complementEl.value = data.complemento;
+      }
 
       this.numberEl.focus();
     }
